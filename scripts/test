@@ -1,0 +1,13 @@
+#!/bin/bash
+set -e
+(
+export GOPATH=$PWD/Godeps/_workspace:$GOPATH
+echo "Formating..."
+go fmt ./...
+echo "Vetting..."
+go vet ./...
+echo "Testing..."
+ginkgo -r -randomizeAllSpecs -nodes=4 $@
+echo "SUITE SUCCESS"
+)
+

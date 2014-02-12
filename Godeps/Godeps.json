@@ -1,0 +1,25 @@
+{
+	"ImportPath": "github.com/cloudfoundry-incubator/api",
+	"GoVersion": "go1.2",
+	"Packages": [
+		"./..."
+	],
+	"Deps": [
+		{
+			"ImportPath": "github.com/onsi/ginkgo",
+			"Rev": "3bafcec253f65271566c4d05cb3e3f3b1a6cb2d1"
+		},
+		{
+			"ImportPath": "github.com/onsi/gomega",
+			"Rev": "d7685fbd45fb7bef327b43ca2781368c68bf72b7"
+		},
+		{
+			"ImportPath": "github.com/stretchr/testify/assert",
+			"Rev": "bd93f05fd7b55e470bb853e28cb549a1d6c40fc1"
+		},
+		{
+			"ImportPath": "github.com/tjarratt/mr_t",
+			"Rev": "c417bd01621a955313023647cb4a815c4c3cdb59"
+		}
+	]
+}
