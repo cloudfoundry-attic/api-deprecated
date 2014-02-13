@@ -2,6 +2,8 @@
 set -e
 (
 export GOPATH=$PWD/Godeps/_workspace:$GOPATH
+echo "Building..."
+./scripts/build
 echo "Formating..."
 go fmt ./...
 echo "Vetting..."

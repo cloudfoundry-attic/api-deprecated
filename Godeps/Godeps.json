@@ -7,7 +7,7 @@
 	"Deps": [
 		{
 			"ImportPath": "github.com/onsi/ginkgo",
-			"Rev": "3bafcec253f65271566c4d05cb3e3f3b1a6cb2d1"
+			"Rev": "d71f32f5dc46c47cafde0b96a628e3594e96b75a"
 		},
 		{
 			"ImportPath": "github.com/onsi/gomega",
@@ -20,6 +20,11 @@
 		{
 			"ImportPath": "github.com/tjarratt/mr_t",
 			"Rev": "c417bd01621a955313023647cb4a815c4c3cdb59"
+		},
+		{
+			"ImportPath": "launchpad.net/goyaml",
+			"Comment": "50",
+			"Rev": "gustavo@niemeyer.net-20131114120802-abe042syx64z2m7s"
 		}
 	]
 }

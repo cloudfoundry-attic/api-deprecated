@@ -7,6 +7,7 @@ import (
 	. "github.com/onsi/ginkgo"
 	gconfig "github.com/onsi/ginkgo/config"
 	. "github.com/onsi/gomega"
+	"github.com/tjarratt/mr_t"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
@@ -20,9 +21,9 @@ var _ = Describe("Intercept Proxy", func() {
 		port           int
 	)
 	BeforeEach(func() {
-		port = 3000 + gconfig.GinkgoConfig.ParallelNode
+		port = 3050 + gconfig.GinkgoConfig.ParallelNode
 
-		defaultBackend, defaultHandler = testnet.NewServer(GinkgoT(), []testnet.TestRequest{})
+		defaultBackend, defaultHandler = testnet.NewServer(mr_t.T(), []testnet.TestRequest{})
 		p = intercept_proxy.New(intercept_proxy.Args{
 			DefaultBackendURL: defaultBackend.URL,
 		})
@@ -36,27 +37,10 @@ var _ = Describe("Intercept Proxy", func() {
 	})
 
 	Context("when the route does not exist", func() {
-		It("should proxy to the default backend", func() {
+		FIt("should proxy to the default backend", func() {
 			defaultHandler.Requests = []testnet.TestRequest{
 				{
 					Method:   "GET",
-					Path:     "/foo",
-					Response: testnet.TestResponse{Status: http.StatusOK, Body: "hello world"}}}
-
-			resp, err := http.DefaultClient.Get(fmt.Sprintf("http://localhost:%d/foo", port))
-			Expect(err).ToNot(HaveOccurred())
-
-			body, err := ioutil.ReadAll(resp.Body)
-			Expect(err).ToNot(HaveOccurred())
-			Expect(string(body)).To(Equal("hello world\n"))
-		})
-	})
-
-	Context("when the route does not exist ad", func() {
-		It("should proxy to the default backend asd", func() {
-			defaultHandler.Requests = []testnet.TestRequest{
-				{
-					Method:   "get",
 					Path:     "/foo",
 					Response: testnet.TestResponse{Status: http.StatusOK, Body: "hello world"}}}
 

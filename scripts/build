@@ -1,0 +1,5 @@
+#!/bin/bash
+
+set -e
+
+godep go build -o out/api
