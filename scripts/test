@@ -3,6 +3,8 @@ set -e
 (
 export GOPATH=$PWD/Godeps/_workspace:$GOPATH
 echo "Building..."
+go install github.com/pivotal-cf-experimental/godep
+
 ./scripts/build
 echo "Formating..."
 go fmt ./...
