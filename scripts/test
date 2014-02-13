@@ -9,6 +9,7 @@ echo "Formating..."
 go fmt ./...
 
 echo "Vetting..."
+go get code.google.com/p/go.tools/cmd/vet
 go vet ./...
 echo "Testing..."
 
