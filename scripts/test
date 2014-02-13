@@ -11,6 +11,9 @@ go fmt ./...
 echo "Vetting..."
 go vet ./...
 echo "Testing..."
+
+go install github.com/onsi/ginkgo
+
 ginkgo -r -randomizeAllSpecs -nodes=4 $@
 echo "SUITE SUCCESS"
 )
