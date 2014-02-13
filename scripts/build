@@ -1,5 +1,7 @@
 #!/bin/bash
 
 set -e
-
-godep go build -o out/api
+(
+	export GOPATH=$PWD/Godeps/_workspace:$GOPATH
+	go build -o out/api
+)

@@ -3,17 +3,16 @@ set -e
 (
 export GOPATH=$PWD/Godeps/_workspace:$GOPATH
 echo "Building..."
-go get github.com/pivotal-cf-experimental/godep
-
 ./scripts/build
+
 echo "Formating..."
 go fmt ./...
+
 echo "Vetting..."
 go vet ./...
 echo "Testing..."
 
 go install github.com/onsi/ginkgo
-
 ginkgo -r -randomizeAllSpecs -nodes=4 $@
 echo "SUITE SUCCESS"
 )
