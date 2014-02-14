@@ -1,7 +1,12 @@
 #!/bin/bash
 set -e
-(
+
 export GOPATH=$PWD/Godeps/_workspace:$GOPATH
+FIRST_GOPATH=`echo $GOPATH | cut -d':' -f1`
+
+mkdir -p $FIRST_GOPATH/bin
+export PATH=$FIRST_GOPATH/bin:$PATH
+
 echo "Building..."
 ./scripts/build
 
@@ -16,5 +21,3 @@ echo "Testing..."
 go install github.com/onsi/ginkgo
 ginkgo -r -randomizeAllSpecs -nodes=4 $@
 echo "SUITE SUCCESS"
-)
-
