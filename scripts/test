@@ -13,11 +13,11 @@ echo "Building..."
 echo "Formating..."
 go fmt ./...
 
-echo "Vetting..."
-go get code.google.com/p/go.tools/cmd/vet
-go vet ./...
-echo "Testing..."
+# echo "Vetting..."
+# go get code.google.com/p/go.tools/cmd/vet
+# go vet ./...
 
+echo "Testing..."
 go install github.com/onsi/ginkgo
 ginkgo -r -randomizeAllSpecs -nodes=4 $@
 echo "SUITE SUCCESS"
