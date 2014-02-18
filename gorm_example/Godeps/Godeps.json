@@ -1,0 +1,23 @@
+{
+	"ImportPath": "github.com/cloudfoundry-incubator/api/gorm_example",
+	"GoVersion": "go1.2",
+	"Deps": [
+		{
+			"ImportPath": "github.com/go-sql-driver/mysql",
+			"Comment": "go1",
+			"Rev": "9a7aa3606b82e2081a13a008ada88dfdb96c20fd"
+		},
+		{
+			"ImportPath": "github.com/jinzhu/gorm",
+			"Rev": "c25f26149e21638328a88b67a853b324b8163d4e"
+		},
+		{
+			"ImportPath": "github.com/onsi/ginkgo",
+			"Rev": "d71f32f5dc46c47cafde0b96a628e3594e96b75a"
+		},
+		{
+			"ImportPath": "github.com/onsi/gomega",
+			"Rev": "d7685fbd45fb7bef327b43ca2781368c68bf72b7"
+		}
+	]
+}

@@ -6,6 +6,28 @@
 	],
 	"Deps": [
 		{
+			"ImportPath": "github.com/chuckpreslar/codex",
+			"Comment": "v0.4.0-22-g7e56bf6",
+			"Rev": "7e56bf6ca7f2cd8e6d5d3e4b7cc6c83054945eeb"
+		},
+		{
+			"ImportPath": "github.com/eaigner/hood",
+			"Rev": "ca2c4bd5f4dd4e826d458112c5e3bf6d30a48162"
+		},
+		{
+			"ImportPath": "github.com/go-sql-driver/mysql",
+			"Comment": "go1",
+			"Rev": "9a7aa3606b82e2081a13a008ada88dfdb96c20fd"
+		},
+		{
+			"ImportPath": "github.com/jinzhu/gorm",
+			"Rev": "c25f26149e21638328a88b67a853b324b8163d4e"
+		},
+		{
+			"ImportPath": "github.com/lib/pq",
+			"Rev": "6577a6a8a8b66cc558ebe37f51ca07833bfa433b"
+		},
+		{
 			"ImportPath": "github.com/onsi/ginkgo",
 			"Rev": "d71f32f5dc46c47cafde0b96a628e3594e96b75a"
 		},
@@ -25,6 +47,14 @@
 			"ImportPath": "launchpad.net/goyaml",
 			"Comment": "50",
 			"Rev": "gustavo@niemeyer.net-20131114120802-abe042syx64z2m7s"
+		},
+		{
+			"ImportPath": "menteslibres.net/gosexy/to",
+			"Rev": "54dec6d00815451f5605ada1c28177398718bde9"
+		},
+		{
+			"ImportPath": "upper.io/db",
+			"Rev": "d65fe613c0ea490179d7e48671e88acd9aba14b8"
 		}
 	]
 }
