@@ -19,7 +19,7 @@ var _ = Describe("API INTEGRATION RUNNER", func() {
 			}}
 		})
 
-		FIt("should proxy to the default backend", func() {
+		It("should proxy to the default backend", func() {
 			resp, err := http.DefaultClient.Get(proxyURL + "/foo")
 
 			Expect(err).ToNot(HaveOccurred())
@@ -28,6 +28,14 @@ var _ = Describe("API INTEGRATION RUNNER", func() {
 
 			body, err := ioutil.ReadAll(resp.Body)
 			Expect(string(body)).To(Equal("hello world\n"))
+		})
+	})
+
+	Context("when the route does exist", func() {
+		It("handles the request", func() {
+			resp, err := http.DefaultClient.Get(proxyURL + "/jobs/abcdef")
+			Expect(err).ToNot(HaveOccurred())
+			Expect(resp.StatusCode).To(Equal(http.StatusOK))
 		})
 	})
 })

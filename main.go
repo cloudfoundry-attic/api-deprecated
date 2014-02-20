@@ -4,7 +4,8 @@ import (
 	"flag"
 	"fmt"
 	"github.com/cloudfoundry-incubator/api/config"
-	"github.com/cloudfoundry-incubator/api/intercept_proxy"
+	"github.com/cloudfoundry-incubator/api/router"
+	"github.com/cloudfoundry-incubator/api/routing_table"
 	"net/http"
 )
 
@@ -17,20 +18,23 @@ func init() {
 
 func main() {
 	c, err := config.NewFromFile(*configPath)
+
 	if err != nil {
 		panic("error reading config file: " + err.Error())
 	}
 
-	proxy := intercept_proxy.New(intercept_proxy.Args{
+	routes := routing_table.New()
+
+	router := router.New(router.Args{
 		DefaultBackendURL: c.DefaultBackendURL,
+		Routes:            routes,
 	})
 
 	server := http.Server{
 		Addr:    fmt.Sprintf(":%d", c.Port),
-		Handler: proxy,
+		Handler: router,
 	}
 
-	fmt.Printf("%#v", c)
 	err = server.ListenAndServe()
 	if err != nil {
 		panic("server exited with error: " + err.Error())
