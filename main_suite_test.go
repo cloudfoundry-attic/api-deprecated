@@ -40,6 +40,9 @@ func startApiServer() (cmd *exec.Cmd) {
 	c := config.Config{
 		DefaultBackendURL: defaultBackend.URL,
 		Port:              proxyPort,
+		DB: config.DbConfig{
+			URI: "sqlite://:memory:",
+		},
 	}
 
 	filePath := writeTempConfigFile(c)

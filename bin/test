@@ -1,0 +1,23 @@
+#!/bin/bash
+set -e
+
+export GOPATH=$PWD/Godeps/_workspace:$GOPATH
+FIRST_GOPATH=`echo $GOPATH | cut -d':' -f1`
+
+mkdir -p $FIRST_GOPATH/bin
+export PATH=$FIRST_GOPATH/bin:$PATH
+
+echo "Building..."
+./bin/build
+
+echo "Formating..."
+go fmt ./...
+
+# echo "Vetting..."
+# go get code.google.com/p/go.tools/cmd/vet
+# go vet ./...
+
+echo "Testing..."
+go install github.com/onsi/ginkgo/ginkgo
+ginkgo -r -randomizeAllSpecs -nodes=4 $@
+echo "SUITE SUCCESS"

@@ -2,8 +2,8 @@ package job_controller_test
 
 import (
 	"github.com/cloudfoundry-incubator/api/controllers/job_controller"
-	middle "github.com/cloudfoundry-incubator/api/middleware/http"
 	. "github.com/cloudfoundry-incubator/api/testhelpers/matchers"
+	"github.com/cloudfoundry-incubator/api/testhelpers/middleware"
 	"github.com/cloudfoundry-incubator/api/testhelpers/models/fake_job"
 	"github.com/codegangsta/martini"
 	. "github.com/onsi/ginkgo"
@@ -17,19 +17,16 @@ func StringToTime(s string) time.Time {
 	if err != nil {
 		panic("time parsing error: " + err.Error())
 	}
-	println("TIME", t.Format("2006-01-02T15:04:05+00:00"))
 	return t
 }
 
 var _ = Describe("Jobs", func() {
-	var res *middle.TestResponse
-	var req *middle.TestRequest
+	var res *middleware.TestResponse
 
 	Context("Get", func() {
 		Context("when the job exists", func() {
 			BeforeEach(func() {
-				res = middle.NewTestResponse()
-				req = middle.NewTestRequest()
+				res = middleware.NewTestResponse()
 				params := martini.Params{}
 
 				jobModel := &fake_job.Model{}
@@ -40,8 +37,9 @@ var _ = Describe("Jobs", func() {
 
 				jobRepo := &fake_job.Repo{}
 				jobRepo.FindByGuidOutput.Model = jobModel
+				jobRepo.FindByGuidOutput.Found = true
 
-				job_controller.Get(res, req, params, jobRepo)
+				job_controller.Get(res, params, jobRepo)
 			})
 
 			It("returns 200 OK", func() {

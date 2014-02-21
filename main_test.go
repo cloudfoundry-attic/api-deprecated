@@ -33,7 +33,7 @@ var _ = Describe("API INTEGRATION RUNNER", func() {
 
 	Context("when the route does exist", func() {
 		It("handles the request", func() {
-			resp, err := http.DefaultClient.Get(proxyURL + "/jobs/abcdef")
+			resp, err := http.DefaultClient.Get(proxyURL + "/v2/jobs/abcdef")
 			Expect(err).ToNot(HaveOccurred())
 			Expect(resp.StatusCode).To(Equal(http.StatusOK))
 		})

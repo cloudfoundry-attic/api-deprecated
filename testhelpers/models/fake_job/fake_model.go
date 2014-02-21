@@ -1,6 +1,8 @@
 package fake_job
 
-import "time"
+import (
+	"time"
+)
 
 type Model struct {
 	Outputs struct {

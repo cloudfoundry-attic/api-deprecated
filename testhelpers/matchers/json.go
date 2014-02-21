@@ -29,10 +29,12 @@ func (matcher jsonMatcher) Match(actual interface{}) (success bool, message stri
 
 	result1, err := ToJson(actualJson)
 	if err != nil {
+		err = errors.New("Problem with actual JSON: " + err.Error())
 		return
 	}
 	result2, err := ToJson(matcher.expectedJson)
 	if err != nil {
+		err = errors.New("Problem with expected JSON: " + err.Error())
 		return
 	}
 

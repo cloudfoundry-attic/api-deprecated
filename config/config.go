@@ -8,6 +8,11 @@ import (
 type Config struct {
 	DefaultBackendURL string `yaml:"default_backend_url"`
 	Port              int
+	DB                DbConfig
+}
+
+type DbConfig struct {
+	URI string `yaml:"database"`
 }
 
 func New(configBytes []byte) (c Config, err error) {

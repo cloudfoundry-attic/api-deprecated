@@ -8,10 +8,15 @@ type Repo struct {
 	}
 	FindByGuidOutput struct {
 		Model *Model
+		Found bool
 	}
 }
 
-func (repo *Repo) FindByGuid(guid string) job.Model {
+func (repo *Repo) FindByGuid(guid string) (job.JobModel, bool) {
 	repo.FindByGuidInput.Guid = guid
-	return repo.FindByGuidOutput.Model
+	return repo.FindByGuidOutput.Model, repo.FindByGuidOutput.Found
+}
+
+func (repo *Repo) Save(job.JobModel) error {
+	return nil
 }

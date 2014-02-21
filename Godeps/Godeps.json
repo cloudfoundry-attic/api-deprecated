@@ -6,6 +6,36 @@
 	],
 	"Deps": [
 		{
+			"ImportPath": "github.com/codegangsta/inject",
+			"Rev": "1817ef28a0e76985d513785871920d9f0c3df187"
+		},
+		{
+			"ImportPath": "github.com/codegangsta/martini",
+			"Comment": "v0.1-86-g65c7c32",
+			"Rev": "65c7c32cda99283c0fc06d4317711fd603755c61"
+		},
+		{
+			"ImportPath": "github.com/go-sql-driver/mysql",
+			"Comment": "go1",
+			"Rev": "9a7aa3606b82e2081a13a008ada88dfdb96c20fd"
+		},
+		{
+			"ImportPath": "github.com/jinzhu/gorm",
+			"Rev": "9b869d7376a9f2dbb3d9865b7eaaf790264bfa26"
+		},
+		{
+			"ImportPath": "github.com/lib/pq",
+			"Rev": "6577a6a8a8b66cc558ebe37f51ca07833bfa433b"
+		},
+		{
+			"ImportPath": "github.com/mattn/go-sqlite3",
+			"Rev": "fb0ae124843f77b46af49646f8316c71106ab758"
+		},
+		{
+			"ImportPath": "github.com/nu7hatch/gouuid",
+			"Rev": "179d4d0c4d8d407a32af483c2354df1d2c91e6c3"
+		},
+		{
 			"ImportPath": "github.com/onsi/ginkgo",
 			"Rev": "d71f32f5dc46c47cafde0b96a628e3594e96b75a"
 		},

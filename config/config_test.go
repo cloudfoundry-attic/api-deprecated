@@ -14,11 +14,16 @@ var exampleData = []byte(`
 ---
 default_backend_url: http://www.google.com:80
 port: 3000
+db:
+  database: sqlite://tmp/api.db
 `)
 
 var expectedConfig = config.Config{
 	DefaultBackendURL: "http://www.google.com:80",
 	Port:              3000,
+	DB: config.DbConfig{
+		URI: "sqlite://tmp/api.db",
+	},
 }
 
 var _ = Describe("Configuration", func() {

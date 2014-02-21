@@ -4,7 +4,9 @@ import (
 	"flag"
 	"fmt"
 	"github.com/cloudfoundry-incubator/api/config"
-	"github.com/cloudfoundry-incubator/api/router"
+	"github.com/cloudfoundry-incubator/api/framework/database"
+	"github.com/cloudfoundry-incubator/api/framework/router"
+	"github.com/cloudfoundry-incubator/api/models"
 	"github.com/cloudfoundry-incubator/api/routing_table"
 	"net/http"
 )
@@ -18,22 +20,29 @@ func init() {
 
 func main() {
 	c, err := config.NewFromFile(*configPath)
-
 	if err != nil {
 		panic("error reading config file: " + err.Error())
 	}
 
-	routes := routing_table.New()
+	db, err := database.NewDB(c.DB)
+	if err != nil {
+		panic("error connecting to db: " + err.Error())
+	}
 
 	router := router.New(router.Args{
 		DefaultBackendURL: c.DefaultBackendURL,
-		Routes:            routes,
+		Routes:            routing_table.New(),
+		Dependencies:      models.NewExports(db),
 	})
 
+	address := fmt.Sprintf(":%d", c.Port)
+
 	server := http.Server{
-		Addr:    fmt.Sprintf(":%d", c.Port),
+		Addr:    address,
 		Handler: router,
 	}
+
+	fmt.Printf("Cloud Foundry api server listening on %s", address)
 
 	err = server.ListenAndServe()
 	if err != nil {
