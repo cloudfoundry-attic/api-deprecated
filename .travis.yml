@@ -6,6 +6,4 @@ go:
 install: []
 
 script: bin/test
-before_script:
-  - psql -c 'create database api_test;' -U postgres
-  - mysql -e 'create database api_test;'
+before_script: bin/test_setup

@@ -1,0 +1,2 @@
+  psql -c 'create database api_test;' -U postgres
+  mysql -e 'create database api_test;'
