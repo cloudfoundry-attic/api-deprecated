@@ -5,8 +5,10 @@ import (
 )
 
 type Record struct {
-	Id   int64
-	Guid string
+	Id           int64
+	Guid         string
+	PackageHash  string
+	PackageState string
 }
 
 func (record Record) TableName() string {

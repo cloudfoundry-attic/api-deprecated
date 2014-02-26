@@ -13,14 +13,6 @@ func TestBlobstore(t *testing.T) {
 	RunSpecs(t, "Blobstore Suite")
 }
 
-func cwd() string {
-	cwd, err := os.Getwd()
-	if err != nil {
-		panic(err)
-	}
-	return cwd
-}
-
 func fileSize(path string) int64 {
 	stat, err := os.Stat(path)
 	Expect(err).NotTo(HaveOccurred())

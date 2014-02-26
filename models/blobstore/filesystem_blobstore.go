@@ -23,7 +23,7 @@ func newFileSystemBlobStore(filepath string) BlobStore {
 func (s *fileStore) Upload(key string, content io.ReadSeeker) (err error) {
 	destFilePath := filepath.Join(s.path, key)
 
-	os.MkdirAll(filepath.Dir(destFilePath), dirPerm)
+	err = os.MkdirAll(filepath.Dir(destFilePath), dirPerm)
 	if err != nil {
 		return
 	}
@@ -38,5 +38,6 @@ func (s *fileStore) Upload(key string, content io.ReadSeeker) (err error) {
 	if err != nil {
 		return
 	}
+
 	return
 }

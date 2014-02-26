@@ -2,6 +2,7 @@ package blobstore_test
 
 import (
 	"github.com/cloudfoundry-incubator/api/models/blobstore"
+	"github.com/cloudfoundry-incubator/api/testhelpers/file"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"io/ioutil"
@@ -27,8 +28,8 @@ var _ = Describe("File System Blobstore", func() {
 
 	Context("Upload", func() {
 		var (
-			fixturePath1 = filepath.Join(cwd(), "../../test_fixtures/dora.zip")
-			fixturePath2 = filepath.Join(cwd(), "../../test_fixtures/app.zip")
+			fixturePath1 = filepath.Join(file.Cwd(), "../../test_fixtures/dora.zip")
+			fixturePath2 = filepath.Join(file.Cwd(), "../../test_fixtures/app.zip")
 			fixture1     *os.File
 			fixture2     *os.File
 		)

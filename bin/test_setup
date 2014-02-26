@@ -1,2 +1,6 @@
-  psql -c 'create database api_test;' -U postgres
-  mysql -e 'create database api_test;'
+export GOPATH=$PWD/Godeps/_workspace:$GOPATH
+mkdir -p $GOPATH/bin
+go install github.com/onsi/ginkgo/ginkgo
+
+psql -c 'create database api_test;' -U postgres
+mysql -e 'create database api_test;'

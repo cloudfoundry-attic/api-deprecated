@@ -42,7 +42,7 @@ func main() {
 		Handler: router,
 	}
 
-	fmt.Printf("Cloud Foundry api server listening on %s", address)
+	fmt.Printf("Cloud Foundry api server listening on %s\n", address)
 
 	err = server.ListenAndServe()
 	if err != nil {

@@ -3,6 +3,7 @@ package main_test
 import (
 	"fmt"
 	"github.com/cloudfoundry-incubator/api/config"
+	"github.com/cloudfoundry-incubator/api/testhelpers/file"
 	testnet "github.com/cloudfoundry-incubator/api/testhelpers/net"
 	"github.com/fraenkel/candiedyaml"
 	. "github.com/onsi/ginkgo"
@@ -11,7 +12,6 @@ import (
 	"github.com/tjarratt/mr_t"
 	"github.com/vito/cmdtest"
 	"io"
-	"io/ioutil"
 	"net"
 	"net/http/httptest"
 	"os"
@@ -44,7 +44,7 @@ func TestMain(t *testing.T) {
 			URI: "sqlite://:memory:",
 		},
 		AppPackages: config.BlobstoreConfig{
-			Filepath: tmpDir("app_packages"),
+			Filepath: file.TmpDir(),
 		},
 	}
 
@@ -106,7 +106,7 @@ func stopApiServer(session *cmdtest.Session) {
 }
 
 func writeTempConfigFile(c config.Config) (filePath string) {
-	filePath = filepath.Join(tmpDir("api_test"), "config.yml")
+	filePath = filepath.Join(file.TmpDir(), "config.yml")
 
 	confFile, err := os.OpenFile(filePath, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0600)
 	if err != nil {
@@ -119,14 +119,5 @@ func writeTempConfigFile(c config.Config) (filePath string) {
 		panic("could not marshal config: " + err.Error())
 	}
 
-	return
-}
-
-func tmpDir(name string) (dir string) {
-	var err error
-	dir, err = ioutil.TempDir("", name)
-	if err != nil {
-		panic("could not create temp dir: " + err.Error())
-	}
 	return
 }

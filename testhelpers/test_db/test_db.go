@@ -7,7 +7,7 @@ import (
 
 func InitTestDB() gorm.DB {
 	db, err := gorm.Open("sqlite3", ":memory:")
-	db.LogMode(true)
+	db.LogMode(false)
 	if err != nil {
 		panic(err)
 	}
