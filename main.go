@@ -32,7 +32,7 @@ func main() {
 	router := router.New(router.Args{
 		DefaultBackendURL: c.DefaultBackendURL,
 		Routes:            routing_table.New(),
-		Dependencies:      models.NewExports(db),
+		Dependencies:      models.NewExports(db, c),
 	})
 
 	address := fmt.Sprintf(":%d", c.Port)

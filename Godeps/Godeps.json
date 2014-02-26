@@ -1,9 +1,6 @@
 {
 	"ImportPath": "github.com/cloudfoundry-incubator/api",
 	"GoVersion": "go1.2",
-	"Packages": [
-		"./..."
-	],
 	"Deps": [
 		{
 			"ImportPath": "github.com/codegangsta/inject",
@@ -13,6 +10,10 @@
 			"ImportPath": "github.com/codegangsta/martini",
 			"Comment": "v0.1-86-g65c7c32",
 			"Rev": "65c7c32cda99283c0fc06d4317711fd603755c61"
+		},
+		{
+			"ImportPath": "github.com/fraenkel/candiedyaml",
+			"Rev": "5047d533a696c88bcfde0cdfc4d53f022d54fd25"
 		},
 		{
 			"ImportPath": "github.com/go-sql-driver/mysql",
@@ -52,9 +53,8 @@
 			"Rev": "c417bd01621a955313023647cb4a815c4c3cdb59"
 		},
 		{
-			"ImportPath": "launchpad.net/goyaml",
-			"Comment": "50",
-			"Rev": "gustavo@niemeyer.net-20131114120802-abe042syx64z2m7s"
+			"ImportPath": "github.com/vito/cmdtest",
+			"Rev": "fbd89b77403b5ed2f394946ec8debcc251b96815"
 		}
 	]
 }

@@ -1,11 +1,11 @@
 package job
 
 import (
-	"github.com/cloudfoundry-incubator/api/framework/model"
+	"github.com/cloudfoundry-incubator/api/framework/models"
 	"time"
 )
 
-type JobRecord struct {
+type Record struct {
 	Id        int64
 	Guid      string
 	CreatedAt time.Time
@@ -13,12 +13,12 @@ type JobRecord struct {
 	LockedAt  time.Time
 }
 
-func (record JobRecord) TableName() string {
+func (record Record) TableName() string {
 	return "delayed_jobs"
 }
 
-func NewJobRecord() JobRecord {
-	return JobRecord{
-		Guid: model.NewGuid(),
+func NewRecord() Record {
+	return Record{
+		Guid: models.NewGuid(),
 	}
 }

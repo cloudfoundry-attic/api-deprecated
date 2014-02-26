@@ -5,13 +5,8 @@ import (
 	"time"
 )
 
-type JobModel interface {
+type Model interface {
 	Getter
-}
-
-type Recorder interface {
-	Record() interface{}
-	SetRecord(interface{})
 }
 
 type Getter interface {
@@ -21,34 +16,34 @@ type Getter interface {
 	Status() string
 }
 
-type jobModel struct {
-	record JobRecord
+type model struct {
+	record Record
 }
 
-func NewModel() JobModel {
-	return NewModelFromRecord(NewJobRecord())
+func NewModel() Model {
+	return NewModelFromRecord(NewRecord())
 }
 
-func NewModelFromRecord(record JobRecord) JobModel {
-	return &jobModel{
+func NewModelFromRecord(record Record) Model {
+	return &model{
 		record: record,
 	}
 }
 
 // GETTERS
-func (m *jobModel) Guid() string {
+func (m *model) Guid() string {
 	return m.record.Guid
 }
 
-func (m *jobModel) CreatedAt() time.Time {
+func (m *model) CreatedAt() time.Time {
 	return m.record.CreatedAt
 }
 
-func (m *jobModel) Url() string {
+func (m *model) Url() string {
 	return path.Join("/v2/jobs", m.record.Guid)
 }
 
-func (m *jobModel) Status() string {
+func (m *model) Status() string {
 	if m.record.LastError != "" {
 		return "failed"
 	}
@@ -62,15 +57,15 @@ func (m *jobModel) Status() string {
 	return "running"
 }
 
-// RECORDER
-func (m *jobModel) Record() interface{} {
+// model.RECORDER
+func (m *model) Record() interface{} {
 	return &m.record
 }
 
-func (m *jobModel) SetRecord(record interface{}) {
-	jobRecord, ok := record.(*JobRecord)
+func (m *model) SetRecord(record interface{}) {
+	rec, ok := record.(*Record)
 	if !ok {
-		panic("record must be of type JobRecord")
+		panic("record must be of type Record")
 	}
-	m.record = *jobRecord
+	m.record = *rec
 }

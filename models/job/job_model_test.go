@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-var _ = Describe("JobModel", func() {
+var _ = Describe("Model", func() {
 	Context("Status", func() {
 		It("is finished when there is no id", func() {
 			j := job.NewModel()
@@ -15,7 +15,7 @@ var _ = Describe("JobModel", func() {
 		})
 
 		It("is failed if there is an error", func() {
-			r := job.NewJobRecord()
+			r := job.NewRecord()
 			r.LastError = "oops"
 
 			j := job.NewModelFromRecord(r)
@@ -23,7 +23,7 @@ var _ = Describe("JobModel", func() {
 		})
 
 		It("is queued if job has an id but no lock", func() {
-			r := job.NewJobRecord()
+			r := job.NewRecord()
 			r.Id = int64(123)
 
 			j := job.NewModelFromRecord(r)
@@ -31,7 +31,7 @@ var _ = Describe("JobModel", func() {
 		})
 
 		It("is running if job has a lock and no error", func() {
-			r := job.NewJobRecord()
+			r := job.NewRecord()
 			r.Id = int64(123)
 			r.LockedAt = time.Now()
 

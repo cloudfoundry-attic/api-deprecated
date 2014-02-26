@@ -2,4 +2,6 @@
 default_backend_url: http://www.google.com:80
 port: 3000
 db:
-  database: mysql:///pivotal:@/test?charset=utf8&parseTime=True
+  database: "mysql:///pivotal:@/test?charset=utf8&parseTime=True"
+app_packages:
+  filepath: "/tmp/api/app_packages"

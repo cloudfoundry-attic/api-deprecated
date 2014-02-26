@@ -3,47 +3,49 @@ package job
 import (
 	"errors"
 	"fmt"
+	"github.com/cloudfoundry-incubator/api/framework/models"
 	"github.com/jinzhu/gorm"
 )
 
-type JobRepo interface {
-	FindByGuid(guid string) (job JobModel, found bool)
-	Save(JobModel) error
+type Repo interface {
+	FindByGuid(guid string) (job Model, found bool)
+	Save(Model) error
 }
 
-type jobRepo struct {
+type repo struct {
 	db gorm.DB
 }
 
-func NewRepo(db gorm.DB) JobRepo {
-	return &jobRepo{
+func NewRepo(db gorm.DB) Repo {
+	return &repo{
 		db: db,
 	}
 }
 
-func (repo *jobRepo) FindByGuid(guid string) (job JobModel, found bool) {
-	jobRecord := new(JobRecord)
-	dbCon := repo.db.Where("guid = ?", guid)
-	dbCon.First(jobRecord)
-	if jobRecord.Id == 0 {
+func (r *repo) FindByGuid(guid string) (m Model, found bool) {
+	data := new(Record)
+	dbCon := r.db.Where("guid = ?", guid)
+	dbCon.First(data)
+	if data.Id == 0 {
 		return
 	}
-	job = NewModelFromRecord(*jobRecord)
+	m = NewModelFromRecord(*data)
 	found = true
 	return
 }
 
-func (repo *jobRepo) Save(m JobModel) (err error) {
-	recorder, ok := m.(Recorder)
+func (r *repo) Save(m Model) (err error) {
+	recorder, ok := m.(models.Recorder)
 	if !ok {
 		err = errors.New(fmt.Sprintf("Model %T must implement Recorder to save.", m))
+		return
 	}
 
 	// TODO: UTC timestamps need to be fixed in GORM
 	// https://github.com/jinzhu/gorm/pull/67
-	record := recorder.Record().(*JobRecord)
+	record := recorder.Record().(*Record)
 	record.LockedAt = record.LockedAt.UTC()
-	repo.db.Save(record)
+	r.db.Save(record)
 	recorder.SetRecord(record)
 	return
 }

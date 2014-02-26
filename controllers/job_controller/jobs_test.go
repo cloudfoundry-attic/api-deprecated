@@ -25,9 +25,13 @@ var _ = Describe("Jobs", func() {
 
 	Context("Get", func() {
 		Context("when the job exists", func() {
+			var jobRepo *fake_job.Repo
+
 			BeforeEach(func() {
 				res = middleware.NewTestResponse()
-				params := martini.Params{}
+				params := martini.Params{
+					"job_guid": "job-guid",
+				}
 
 				jobModel := &fake_job.Model{}
 				jobModel.Outputs.Guid = "job-guid"
@@ -35,11 +39,15 @@ var _ = Describe("Jobs", func() {
 				jobModel.Outputs.Url = "/v2/jobs/job-guid"
 				jobModel.Outputs.Status = "queued"
 
-				jobRepo := &fake_job.Repo{}
+				jobRepo = &fake_job.Repo{}
 				jobRepo.FindByGuidOutput.Model = jobModel
 				jobRepo.FindByGuidOutput.Found = true
 
 				job_controller.Get(res, params, jobRepo)
+			})
+
+			It("finds the correct job", func() {
+				Expect(jobRepo.FindByGuidInput.Guid).To(Equal("job-guid"))
 			})
 
 			It("returns 200 OK", func() {

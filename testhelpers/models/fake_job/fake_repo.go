@@ -12,11 +12,11 @@ type Repo struct {
 	}
 }
 
-func (repo *Repo) FindByGuid(guid string) (job.JobModel, bool) {
+func (repo *Repo) FindByGuid(guid string) (job.Model, bool) {
 	repo.FindByGuidInput.Guid = guid
 	return repo.FindByGuidOutput.Model, repo.FindByGuidOutput.Found
 }
 
-func (repo *Repo) Save(job.JobModel) error {
+func (repo *Repo) Save(job.Model) error {
 	return nil
 }

@@ -4,12 +4,14 @@ import (
 	"fmt"
 	"github.com/cloudfoundry-incubator/api/config"
 	testnet "github.com/cloudfoundry-incubator/api/testhelpers/net"
+	"github.com/fraenkel/candiedyaml"
 	. "github.com/onsi/ginkgo"
 	gconfig "github.com/onsi/ginkgo/config"
 	. "github.com/onsi/gomega"
 	"github.com/tjarratt/mr_t"
+	"github.com/vito/cmdtest"
+	"io"
 	"io/ioutil"
-	"launchpad.net/goyaml"
 	"net"
 	"net/http/httptest"
 	"os"
@@ -20,12 +22,40 @@ import (
 )
 
 var (
+	conf           config.Config
 	defaultBackend *httptest.Server
 	defaultHandler *testnet.TestHandler
 	proxyPort      int
 	proxyHost      string
 	proxyURL       string
 )
+
+func TestMain(t *testing.T) {
+	proxyPort = 3000 + gconfig.GinkgoConfig.ParallelNode
+	proxyHost := "localhost"
+	proxyURL = fmt.Sprintf("http://%s:%d", proxyHost, proxyPort)
+
+	defaultBackend, defaultHandler = testnet.NewServer(mr_t.T(), []testnet.TestRequest{})
+
+	conf = config.Config{
+		DefaultBackendURL: defaultBackend.URL,
+		Port:              proxyPort,
+		DB: config.DbConfig{
+			URI: "sqlite://:memory:",
+		},
+		AppPackages: config.BlobstoreConfig{
+			Filepath: tmpDir("app_packages"),
+		},
+	}
+
+	cmd := startApiServer(conf)
+	waitForServerStart()
+
+	RegisterFailHandler(Fail)
+	RunSpecs(t, "Integration Suite")
+
+	stopApiServer(cmd)
+}
 
 func buildApiServer() {
 	err := exec.Command("scripts/build").Run()
@@ -35,28 +65,22 @@ func buildApiServer() {
 	}
 }
 
-func startApiServer() (cmd *exec.Cmd) {
-	defaultBackend, defaultHandler = testnet.NewServer(mr_t.T(), []testnet.TestRequest{})
-	c := config.Config{
-		DefaultBackendURL: defaultBackend.URL,
-		Port:              proxyPort,
-		DB: config.DbConfig{
-			URI: "sqlite://:memory:",
-		},
-	}
+func Tee(out io.Writer) io.Writer {
+	return io.MultiWriter(out, os.Stdout)
+}
 
+func startApiServer(c config.Config) *cmdtest.Session {
 	filePath := writeTempConfigFile(c)
-	cmd = exec.Command("out/api", "-c", filePath)
-	go func() {
-		out, err := cmd.CombinedOutput()
-		println("API OUT", string(out))
-		if err != nil {
-			panic("could not run api server: " + err.Error())
-		}
-	}()
 
-	time.Sleep(30 * time.Millisecond)
-	return
+	session, err := cmdtest.StartWrapped(
+		exec.Command("out/api", "-c", filePath),
+		Tee,
+		Tee,
+	)
+	if err != nil {
+		panic(err)
+	}
+	return session
 }
 
 func waitForServerStart() {
@@ -75,41 +99,34 @@ func waitForServerStart() {
 	}
 }
 
-func stopApiServer(cmd *exec.Cmd) {
-	cmd.Process.Kill()
-	cmd.Wait()
+func stopApiServer(session *cmdtest.Session) {
+	session.Cmd.Process.Kill()
+	session.Wait(1 * time.Second)
+
 }
 
 func writeTempConfigFile(c config.Config) (filePath string) {
-	dir, err := ioutil.TempDir("", "api_test")
+	filePath = filepath.Join(tmpDir("api_test"), "config.yml")
+
+	confFile, err := os.OpenFile(filePath, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0600)
 	if err != nil {
-		panic("could not create temp dir: " + err.Error())
+		panic("could not create config file: " + err.Error())
 	}
+	defer confFile.Close()
 
-	filePath = filepath.Join(dir, "config.yml")
-
-	data, err := goyaml.Marshal(c)
+	err = candiedyaml.NewEncoder(confFile).Encode(c)
 	if err != nil {
 		panic("could not marshal config: " + err.Error())
-	}
-
-	err = ioutil.WriteFile(filePath, data, os.FileMode(0600))
-	if err != nil {
-		panic("could not write config file: " + err.Error())
 	}
 
 	return
 }
 
-func TestMain(t *testing.T) {
-	proxyPort = 3000 + gconfig.GinkgoConfig.ParallelNode
-	proxyHost := "localhost"
-	proxyURL = fmt.Sprintf("http://%s:%d", proxyHost, proxyPort)
-
-	cmd := startApiServer()
-
-	RegisterFailHandler(Fail)
-	RunSpecs(t, "Integration Suite")
-
-	stopApiServer(cmd)
+func tmpDir(name string) (dir string) {
+	var err error
+	dir, err = ioutil.TempDir("", name)
+	if err != nil {
+		panic("could not create temp dir: " + err.Error())
+	}
+	return
 }

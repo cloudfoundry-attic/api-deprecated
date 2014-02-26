@@ -2,16 +2,24 @@ package job_test
 
 import (
 	"github.com/cloudfoundry-incubator/api/models/job"
+	"github.com/cloudfoundry-incubator/api/testhelpers/test_db"
+	"github.com/jinzhu/gorm"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"time"
 )
 
-var _ = Describe("JobRepo", func() {
-	var jobRepo job.JobRepo
+var db gorm.DB
+
+func init() {
+	db = test_db.InitTestDB()
+	db.CreateTable(job.Record{})
+}
+
+var _ = Describe("Repo", func() {
+	var jobRepo job.Repo
 	BeforeEach(func() {
 		jobRepo = job.NewRepo(db)
-
 	})
 
 	Context("FindByGuid", func() {
@@ -37,7 +45,7 @@ var _ = Describe("JobRepo", func() {
 
 	Context("Save", func() {
 		It("sets the timezone to UTC on last updated at", func() {
-			r := job.NewJobRecord()
+			r := job.NewRecord()
 			r.LockedAt = time.Now()
 
 			model := job.NewModelFromRecord(r)
