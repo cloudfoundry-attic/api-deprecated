@@ -3,5 +3,5 @@ set -e
 
 (
 	export GOPATH=$PWD/Godeps/_workspace:$GOPATH
-	godep go build -o out/api
+	go build -o out/api
 )
