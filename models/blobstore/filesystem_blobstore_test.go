@@ -21,9 +21,7 @@ var _ = Describe("File System Blobstore", func() {
 		err = nil
 		blobstorePath, err = ioutil.TempDir("", "blobstore_test")
 		Expect(err).NotTo(HaveOccurred())
-		fileStore = blobstore.NewBlobStore(blobstore.BlobStoreArgs{
-			Filepath: blobstorePath,
-		})
+		fileStore = blobstore.NewFileSystemBlobStore(blobstorePath)
 	})
 
 	Context("Upload", func() {

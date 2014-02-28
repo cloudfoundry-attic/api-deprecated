@@ -17,7 +17,12 @@ port: 3000
 db:
   database: "sqlite://tmp/api.db"
 app_packages:
+  provider: "local"
   filepath: "/tmp/api/app_packages"
+  access_key_id: "access_key_id"
+  access_key_secret: "access_key_secret"
+  host: "s3.amazon.com"
+  bucket_name: "app_packages"
 `)
 
 var expectedConfig = config.Config{
@@ -26,8 +31,14 @@ var expectedConfig = config.Config{
 	DB: config.DbConfig{
 		URI: "sqlite://tmp/api.db",
 	},
+
 	AppPackages: config.BlobstoreConfig{
-		Filepath: "/tmp/api/app_packages",
+		Provider:        "local",
+		Filepath:        "/tmp/api/app_packages",
+		AccessKeyId:     "access_key_id",
+		AccessKeySecret: "access_key_secret",
+		Host:            "s3.amazon.com",
+		BucketName:      "app_packages",
 	},
 }
 

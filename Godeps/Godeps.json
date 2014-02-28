@@ -1,6 +1,9 @@
 {
 	"ImportPath": "github.com/cloudfoundry-incubator/api",
 	"GoVersion": "go1.2",
+	"Packages": [
+		"./..."
+	],
 	"Deps": [
 		{
 			"ImportPath": "github.com/codegangsta/inject",
@@ -19,6 +22,10 @@
 			"ImportPath": "github.com/go-sql-driver/mysql",
 			"Comment": "go1",
 			"Rev": "9a7aa3606b82e2081a13a008ada88dfdb96c20fd"
+		},
+		{
+			"ImportPath": "github.com/jacobsa/aws",
+			"Rev": "869e23564a0935c4fe170e2c784ff747ef7501ec"
 		},
 		{
 			"ImportPath": "github.com/jinzhu/gorm",

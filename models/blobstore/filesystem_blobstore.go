@@ -16,7 +16,7 @@ type fileStore struct {
 	path string
 }
 
-func newFileSystemBlobStore(filepath string) BlobStore {
+func NewFileSystemBlobStore(filepath string) BlobStore {
 	return &fileStore{path: filepath}
 }
 

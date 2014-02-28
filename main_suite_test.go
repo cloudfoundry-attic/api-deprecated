@@ -44,6 +44,7 @@ func TestMain(t *testing.T) {
 			URI: "sqlite://:memory:",
 		},
 		AppPackages: config.BlobstoreConfig{
+			Provider: "local",
 			Filepath: file.TmpDir(),
 		},
 	}

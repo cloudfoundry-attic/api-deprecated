@@ -38,5 +38,4 @@ var _ = Describe("API INTEGRATION RUNNER", func() {
 			Expect(res.StatusCode).To(Equal(http.StatusOK))
 		})
 	})
-
 })

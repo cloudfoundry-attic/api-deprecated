@@ -14,7 +14,7 @@ type repo struct {
 
 func NewRepo(args RepoArgs) Repo {
 	return &repo{
-		appPackageStore: NewBlobStore(args.AppPackageStore),
+		appPackageStore: newBlobStore(args.AppPackageStore),
 	}
 }
 

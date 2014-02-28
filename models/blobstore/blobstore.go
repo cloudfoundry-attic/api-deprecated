@@ -1,7 +1,17 @@
 package blobstore
 
 import (
+	"fmt"
+	"github.com/jacobsa/aws"
+	"github.com/jacobsa/aws/s3"
 	"io"
+)
+
+type Provider string
+
+const (
+	Local Provider = "local"
+	S3    Provider = "s3"
 )
 
 type BlobStore interface {
@@ -9,9 +19,35 @@ type BlobStore interface {
 }
 
 type BlobStoreArgs struct {
-	Filepath string
+	Filepath        string
+	Provider        Provider
+	AccessKeyId     string
+	AccessKeySecret string
+	Host            string
+	BucketName      string
 }
 
-func NewBlobStore(args BlobStoreArgs) BlobStore {
-	return newFileSystemBlobStore(args.Filepath)
+func newBlobStore(args BlobStoreArgs) (blobstore BlobStore) {
+	provider := args.Provider
+	switch {
+	case provider == Local:
+		blobstore = NewFileSystemBlobStore(args.Filepath)
+	case provider == S3:
+		bucket, err := s3.OpenBucket(
+			args.BucketName,
+			s3.Region(args.Host),
+			aws.AccessKey{
+				Id:     args.AccessKeyId,
+				Secret: args.AccessKeySecret,
+			})
+
+		if err != nil {
+			panic(err)
+		}
+		blobstore = NewS3FileSystemBlobstore(bucket)
+	default:
+		panic(fmt.Sprintf("Empty or unknown provider [%s]\n", provider))
+	}
+
+	return
 }

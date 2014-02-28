@@ -17,7 +17,12 @@ type DbConfig struct {
 }
 
 type BlobstoreConfig struct {
-	Filepath string
+	Filepath        string
+	Provider        string
+	AccessKeyId     string `yaml:"access_key_id"`
+	AccessKeySecret string `yaml:"access_key_secret"`
+	Host            string
+	BucketName      string `yaml:"bucket_name"`
 }
 
 func New(configBytes []byte) (c Config, err error) {
