@@ -3,4 +3,4 @@ mkdir -p $GOPATH/bin
 go install github.com/onsi/ginkgo/ginkgo
 
 psql -c 'create database api_test;' -U postgres
-mysql -e "CREATE DATABASE api_test; CREATE USER 'api_user'@'localhost' IDENTIFIED BY 'password'; GRANT ALL PRIVILEGES ON api_test.* TO 'api_user'@'localhost';"
+mysql -e "CREATE DATABASE api_test; CREATE USER 'api_user'@'localhost' IDENTIFIED BY 'password'; GRANT ALL PRIVILEGES ON api_test.* TO 'api_user'@'localhost';" -u root
