@@ -32,7 +32,7 @@ var _ = Describe("Db", func() {
 		BeforeEach(func() {
 			var err error
 			c = config.DbConfig{
-				URI: "mysql://root@localhost/api_test:3306",
+				URI: "mysql://api_user:password@/api_test?charset=utf8&parseTime=True",
 			}
 			db, err = database.NewDB(c)
 			Expect(err).NotTo(HaveOccurred())

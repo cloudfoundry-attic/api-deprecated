@@ -27,7 +27,7 @@ func NewDB(c config.DbConfig) (db gorm.DB, err error) {
 		dbParams = dbURL.String()
 	case "mysql":
 		dbType = "mysql"
-		dbParams = strings.TrimLeft(dbURL.RequestURI(), "/")
+		dbParams = strings.TrimLeft(dbURL.String(), "mysql://")
 	default:
 		err = errors.New("Unsupported db type: " + dbURL.Scheme)
 		return
